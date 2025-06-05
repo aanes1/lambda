@@ -1,0 +1,9 @@
+[package]
+name = "ld-server"
+version = "0.1.0"
+edition.workspace = true
+
+[dependencies]
+axum = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+ld-core = { path = "../../core" }

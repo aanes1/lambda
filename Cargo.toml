@@ -1,0 +1,10 @@
+[workspace]
+resolver = "3"
+members = ["apps/server", "core"]
+
+[workspace.package]
+edition = "2024"
+
+[workspace.dependencies]
+axum = "0.8.4"
+tokio = "1.45.1"
