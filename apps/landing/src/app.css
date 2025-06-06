@@ -1,1 +1,7 @@
 @import "tailwindcss";
+
+@layer components {
+	a {
+		@apply text-blue-700 underline underline-offset-4;
+	}
+}
