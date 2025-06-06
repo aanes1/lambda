@@ -7,3 +7,5 @@ edition.workspace = true
 axum = { workspace = true }
 tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
 ld-core = { path = "../../core" }
+sqlx = { workspace = true, features = [ "runtime-tokio", "tls-rustls-ring-webpki", "postgres" ] }
+dotenv = "0.15.0"
