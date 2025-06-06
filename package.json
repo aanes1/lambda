@@ -3,7 +3,8 @@
 	"private": true,
 	"scripts": {
 		"format": "prettier --write .",
-		"landing": "pnpm --filter @ld/landing -- "
+		"landing": "pnpm --filter @ld/landing -- ",
+		"web": "pnpm --filter @ld/web -- "
 	},
 	"packageManager": "pnpm@10.11.0",
 	"devDependencies": {
