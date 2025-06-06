@@ -1,0 +1,19 @@
+{
+	"name": "@ld/monorepo",
+	"private": true,
+	"scripts": {
+		"format": "prettier --write .",
+		"landing": "pnpm --filter @ld/landing -- "
+	},
+	"packageManager": "pnpm@10.11.0",
+	"devDependencies": {
+		"prettier": "^3.5.3",
+		"prettier-plugin-svelte": "^3.4.0",
+		"prettier-plugin-tailwindcss": "^0.6.12"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"esbuild"
+		]
+	}
+}
