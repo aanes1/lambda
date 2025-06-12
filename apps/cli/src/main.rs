@@ -1,4 +1,3 @@
-use cli::Cli;
 use std::process::exit;
 
 mod cli;
@@ -7,7 +6,7 @@ mod init;
 mod new;
 
 fn main() {
-    if let Err(e) = Cli::run() {
+    if let Err(e) = cli::run() {
         eprintln!("error: {}", e);
         exit(1);
     }

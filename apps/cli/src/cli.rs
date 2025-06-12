@@ -1,7 +1,7 @@
 use crate::{
-    deploy::{Deploy, deploy},
-    init::{Init, init},
-    new::{New, new},
+    deploy::{DeployArgs, deploy},
+    init::{InitArgs, init},
+    new::{NewArgs, new},
 };
 use anyhow::Result;
 use clap::{Parser, Subcommand};
@@ -9,11 +9,11 @@ use clap::{Parser, Subcommand};
 #[derive(Subcommand)]
 enum Command {
     #[command(about = "create a new lambda function")]
-    New(New),
+    New(NewArgs),
     #[command(about = "create a new lambda function in an existing directory")]
-    Init(Init),
+    Init(InitArgs),
     #[command(about = "deploy lambda function to aws")]
-    Deploy(Deploy),
+    Deploy(DeployArgs),
 }
 
 #[derive(Parser)]
@@ -23,16 +23,14 @@ pub struct Cli {
     command: Command,
 }
 
-impl Cli {
-    pub fn run() -> Result<()> {
-        let cli = Cli::parse();
+pub fn run() -> Result<()> {
+    let cli = Cli::parse();
 
-        match &cli.command {
-            Command::New(args) => new(args)?,
-            Command::Init(args) => init(args)?,
-            Command::Deploy(args) => deploy(args)?,
-        }
-
-        Ok(())
+    match &cli.command {
+        Command::New(args) => new(args)?,
+        Command::Init(args) => init(args)?,
+        Command::Deploy(args) => deploy(args)?,
     }
+
+    Ok(())
 }

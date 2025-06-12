@@ -2,11 +2,11 @@ use anyhow::Result;
 use clap::Parser;
 
 #[derive(Parser)]
-pub struct Deploy {
+pub struct DeployArgs {
     path: Option<String>,
 }
 
-pub fn deploy(args: &Deploy) -> Result<()> {
+pub fn deploy(args: &DeployArgs) -> Result<()> {
     println!("deploying lambda at {:?}...", args.path);
     Ok(())
 }
