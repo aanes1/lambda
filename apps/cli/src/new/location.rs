@@ -1,6 +1,6 @@
 use anyhow::{Result, bail};
 use inquire::{Text, ui::RenderConfig, validator::Validation};
-use std::path::PathBuf;
+use std::path::{PathBuf, absolute};
 
 const DEFAULT_LOCATION: &str = "./";
 
@@ -41,4 +41,21 @@ pub fn check_path(path: &PathBuf) -> Result<()> {
         bail!("`{}` already exists", path.display())
     }
     Ok(())
+}
+
+pub fn get_name(path: &PathBuf) -> Result<String> {
+    let absolute_path = absolute(path)?;
+
+    let file_name = absolute_path.file_name().ok_or_else(|| {
+        anyhow::format_err!(
+            "failed to auto-detect project name from `{:?}`",
+            absolute_path.as_os_str()
+        )
+    })?;
+    let file_name_str = file_name.to_str().ok_or_else(|| {
+        anyhow::format_err!("`{:?}` cannot contain non-unicode characters", file_name)
+    })?;
+
+    let name = file_name_str.trim().to_lowercase().replace(" ", "-");
+    Ok(name)
 }

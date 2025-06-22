@@ -24,5 +24,7 @@ pub fn new(args: &NewArgs) -> Result<()> {
     let path = PathBuf::from(location);
     location::check_path(&path)?;
 
+    let name = location::get_name(&path)?;
+
     Ok(())
 }
