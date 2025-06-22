@@ -1,9 +1,7 @@
-use std::path::PathBuf;
-
-use anyhow::{Result, bail};
-use clap::Parser;
-
 use crate::utils::get_render_config;
+use anyhow::Result;
+use clap::Parser;
+use std::path::PathBuf;
 
 mod location;
 

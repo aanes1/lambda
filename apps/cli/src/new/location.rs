@@ -1,7 +1,6 @@
-use std::path::PathBuf;
-
 use anyhow::{Result, bail};
 use inquire::{Text, ui::RenderConfig, validator::Validation};
+use std::path::PathBuf;
 
 const DEFAULT_LOCATION: &str = "./";
 
