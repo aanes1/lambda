@@ -1,14 +1,29 @@
 use std::path::PathBuf;
 
 use anyhow::{Result, bail};
-use inquire::{Text, ui::RenderConfig};
+use inquire::{Text, ui::RenderConfig, validator::Validation};
 
 const DEFAULT_LOCATION: &str = "./";
+
+pub fn check_chars(s: &str) -> Result<()> {
+    if s.is_empty() {
+        bail!("location cannot be empty");
+    }
+    // https://stackoverflow.com/a/31976060
+    if s.chars().any(|c| ":;<>\"|?*".contains(c)) {
+        bail!("`{}` cannot contain special characters", s);
+    }
+    Ok(())
+}
 
 pub fn prompt(rcfg: RenderConfig) -> Result<String> {
     let location = Text::new("location")
         .with_default(DEFAULT_LOCATION)
         .with_render_config(rcfg)
+        .with_validator(|s: &str| match check_chars(s) {
+            Ok(()) => Ok(Validation::Valid),
+            Err(e) => Ok(Validation::Invalid(e.into())),
+        })
         .prompt()?;
     Ok(location)
 }

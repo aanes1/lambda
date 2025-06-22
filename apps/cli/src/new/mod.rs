@@ -16,8 +16,11 @@ pub fn new(args: &NewArgs) -> Result<()> {
     let rcfg = get_render_config();
 
     let location = match &args.location {
-        Some(loc) => loc.clone(),
-        None => location::prompt(rcfg)?,
+        Some(loc) => {
+            location::check_chars(loc)?;
+            loc.clone()
+        }
+        None => location::prompt(rcfg)?, // checks chars internally
     };
 
     let path = PathBuf::from(location);
