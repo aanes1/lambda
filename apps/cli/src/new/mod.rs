@@ -1,4 +1,6 @@
-use anyhow::Result;
+use std::path::PathBuf;
+
+use anyhow::{Result, bail};
 use clap::Parser;
 
 use crate::utils::get_render_config;
@@ -17,6 +19,9 @@ pub fn new(args: &NewArgs) -> Result<()> {
         Some(loc) => loc.clone(),
         None => location::prompt(rcfg)?,
     };
+
+    let path = PathBuf::from(location);
+    location::check_path(&path)?;
 
     Ok(())
 }
