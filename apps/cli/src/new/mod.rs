@@ -1,7 +1,6 @@
-use crate::utils::get_render_config;
+use crate::utils;
 use anyhow::Result;
 use clap::Parser;
-use std::path::PathBuf;
 
 mod location;
 
@@ -11,21 +10,12 @@ pub struct NewArgs {
 }
 
 pub fn new(args: &NewArgs) -> Result<()> {
-    let rcfg = get_render_config();
+    let rcfg = utils::get_render_config();
 
     let location = match &args.location {
-        Some(loc) => {
-            location::check_chars(loc)?;
-            loc.clone()
-        }
-        None => location::prompt(rcfg)?, // checks chars internally
+        Some(loc) => location::from(loc)?,
+        None => location::prompt(rcfg)?,
     };
-
-    let path = PathBuf::from(location);
-    location::check_path(&path)?;
-
-    let name = location::get_name(&path)?;
-    location::check_name(&name)?;
 
     Ok(())
 }
