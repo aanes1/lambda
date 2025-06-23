@@ -70,6 +70,8 @@ pub fn check_name(name: &str) -> Result<()> {
             name
         );
     }
-
+    if name.starts_with(&['-', '_']) || name.ends_with(&['-', '_']) {
+        bail!("`{}` cannot start or end with dashes or underscores", name)
+    }
     Ok(())
 }
