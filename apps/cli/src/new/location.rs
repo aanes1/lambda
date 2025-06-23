@@ -59,3 +59,17 @@ pub fn get_name(path: &PathBuf) -> Result<String> {
     let name = file_name_str.trim().to_lowercase().replace(" ", "-");
     Ok(name)
 }
+
+pub fn check_name(name: &str) -> Result<()> {
+    if !name
+        .chars()
+        .all(|c| c.is_ascii_alphanumeric() || c == '-' || c == '_')
+    {
+        bail!(
+            "`{}` must only contain alphanumeric characters, dashes, and underscores",
+            name
+        );
+    }
+
+    Ok(())
+}

@@ -25,6 +25,7 @@ pub fn new(args: &NewArgs) -> Result<()> {
     location::check_path(&path)?;
 
     let name = location::get_name(&path)?;
+    location::check_name(&name)?;
 
     Ok(())
 }
