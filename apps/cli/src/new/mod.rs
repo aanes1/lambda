@@ -1,9 +1,8 @@
-use std::str::FromStr;
-
-use crate::utils;
 use anyhow::Result;
 use clap::Parser;
 use framework::Framework;
+use inquire::ui::RenderConfig;
+use std::str::FromStr;
 
 mod framework;
 mod location;
@@ -16,7 +15,7 @@ pub struct NewArgs {
 }
 
 pub fn new(args: &NewArgs) -> Result<()> {
-    let rcfg = utils::get_render_config();
+    let rcfg = RenderConfig::empty();
 
     let location = match &args.location {
         Some(loc) => location::from(loc)?,
