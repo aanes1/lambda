@@ -1,31 +1,34 @@
-use anyhow::Result;
+use anyhow::{Result, bail};
 use clap::Parser;
-use framework::Framework;
 use inquire::ui::RenderConfig;
-use std::str::FromStr;
+use std::path::PathBuf;
 
-mod framework;
 mod location;
 
 #[derive(Parser)]
 pub struct NewArgs {
     location: Option<String>,
-    #[arg(long, alias = "fw")]
-    framework: Option<String>,
 }
 
 pub fn new(args: &NewArgs) -> Result<()> {
     let rcfg = RenderConfig::empty();
 
     let location = match &args.location {
-        Some(loc) => location::from(loc)?,
+        Some(loc) => loc.clone(),
         None => location::prompt(rcfg)?,
     };
 
-    let framework = match &args.framework {
-        Some(s) => Framework::from_str(s)?,
-        None => framework::prompt(rcfg)?,
+    if location.is_empty() {
+        bail!("location cannot be empty");
+    }
+
+    let mut path = {
+        let rel = PathBuf::from(location);
+        std::path::absolute(rel)?
     };
+
+    let name = location::get_name(&path)?;
+    path.set_file_name(&name);
 
     Ok(())
 }
