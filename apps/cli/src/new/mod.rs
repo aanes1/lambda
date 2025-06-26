@@ -3,11 +3,14 @@ use clap::Parser;
 use inquire::ui::RenderConfig;
 use std::path::PathBuf;
 
+mod framework;
 mod location;
 
 #[derive(Parser)]
 pub struct NewArgs {
     location: Option<String>,
+    #[arg(long, alias = "fw")]
+    framework: Option<String>,
 }
 
 pub fn new(args: &NewArgs) -> Result<()> {
@@ -27,6 +30,11 @@ pub fn new(args: &NewArgs) -> Result<()> {
         std::path::absolute(rel)?
     };
     let name = location::get_name(&path)?;
+
+    let framework = match &args.framework {
+        Some(fw) => framework::from(fw)?,
+        None => framework::prompt(rcfg)?,
+    };
 
     Ok(())
 }
