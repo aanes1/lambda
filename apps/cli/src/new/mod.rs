@@ -14,7 +14,7 @@ pub fn new(args: &NewArgs) -> Result<()> {
     let rcfg = RenderConfig::empty();
 
     let location = match &args.location {
-        Some(loc) => loc.clone(),
+        Some(loc) => loc.trim().to_string(),
         None => location::prompt(rcfg)?,
     };
 
@@ -22,13 +22,11 @@ pub fn new(args: &NewArgs) -> Result<()> {
         bail!("location cannot be empty");
     }
 
-    let mut path = {
+    let path = {
         let rel = PathBuf::from(location);
         std::path::absolute(rel)?
     };
-
     let name = location::get_name(&path)?;
-    path.set_file_name(&name);
 
     Ok(())
 }
