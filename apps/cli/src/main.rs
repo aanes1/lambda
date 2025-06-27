@@ -1,6 +1,7 @@
 mod cli;
 mod deploy;
 mod new;
+mod utils;
 
 fn main() {
     if let Err(e) = cli::run() {

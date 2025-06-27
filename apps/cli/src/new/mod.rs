@@ -1,6 +1,6 @@
+use crate::utils;
 use anyhow::{Result, bail};
 use clap::Parser;
-use inquire::ui::RenderConfig;
 use std::path::PathBuf;
 
 mod framework;
@@ -14,7 +14,7 @@ pub struct NewArgs {
 }
 
 pub fn new(args: &NewArgs) -> Result<()> {
-    let rcfg = RenderConfig::empty();
+    let rcfg = utils::get_render_config();
 
     let location = match &args.location {
         Some(loc) => loc.trim().to_string(),

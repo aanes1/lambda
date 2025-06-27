@@ -7,6 +7,8 @@ use strum::IntoEnumIterator;
 #[strum(serialize_all = "lowercase")]
 pub enum Framework {
     Axum,
+    Actix,
+    Rocket,
 }
 
 pub fn prompt(rcfg: RenderConfig) -> Result<Framework> {
