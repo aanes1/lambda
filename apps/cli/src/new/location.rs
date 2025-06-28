@@ -1,10 +1,10 @@
-use anyhow::{Result, anyhow};
+use anyhow::anyhow;
 use inquire::{Text, ui::RenderConfig};
 use std::path::PathBuf;
 
 const DEFAULT_LOCATION: &str = "./";
 
-pub fn prompt(rcfg: RenderConfig) -> Result<String> {
+pub fn prompt(rcfg: RenderConfig) -> anyhow::Result<String> {
     let location = Text::new("location")
         .with_default(DEFAULT_LOCATION)
         .with_render_config(rcfg)
@@ -15,7 +15,7 @@ pub fn prompt(rcfg: RenderConfig) -> Result<String> {
     Ok(location)
 }
 
-pub fn get_name(path: &PathBuf) -> Result<String> {
+pub fn get_name(path: &PathBuf) -> anyhow::Result<String> {
     let file_name = path
         .file_name()
         .ok_or_else(|| anyhow!("cannot auto-detect name from `{:?}`", path.as_os_str()))?;

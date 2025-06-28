@@ -2,7 +2,6 @@ use crate::{
     deploy::{DeployArgs, deploy},
     new::{NewArgs, new},
 };
-use anyhow::Result;
 use clap::{Parser, Subcommand};
 
 #[derive(Subcommand)]
@@ -20,7 +19,7 @@ pub struct Cli {
     command: Command,
 }
 
-pub fn run() -> Result<()> {
+pub fn run() -> anyhow::Result<()> {
     let cli = Cli::parse();
 
     match &cli.command {

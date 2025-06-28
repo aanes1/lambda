@@ -1,5 +1,4 @@
 use crate::utils;
-use anyhow::{Result, bail};
 use clap::Parser;
 use std::path::PathBuf;
 
@@ -13,7 +12,7 @@ pub struct NewArgs {
     framework: Option<String>,
 }
 
-pub fn new(args: &NewArgs) -> Result<()> {
+pub fn new(args: &NewArgs) -> anyhow::Result<()> {
     let rcfg = utils::get_render_config();
 
     let location = match &args.location {
@@ -22,7 +21,7 @@ pub fn new(args: &NewArgs) -> Result<()> {
     };
 
     if location.is_empty() {
-        bail!("location cannot be empty");
+        anyhow::bail!("location cannot be empty");
     }
 
     let path = {

@@ -1,4 +1,4 @@
-use anyhow::{Result, anyhow, bail};
+use anyhow::anyhow;
 use inquire::{Select, ui::RenderConfig};
 use std::str::FromStr;
 use strum::IntoEnumIterator;
@@ -7,18 +7,9 @@ use strum::IntoEnumIterator;
 #[strum(serialize_all = "lowercase")]
 pub enum Framework {
     Axum,
-    Actix,
-    Rocket,
-    FastAPI,
-    Flask,
-    Turso,
-    NextJS,
-    Svelte,
-    Hello,
-    Test,
 }
 
-pub fn prompt(rcfg: RenderConfig) -> Result<Framework> {
+pub fn prompt(rcfg: RenderConfig) -> anyhow::Result<Framework> {
     let framework = Select::new("framework", Framework::iter().collect())
         .with_render_config(rcfg)
         .prompt()?;
@@ -26,11 +17,11 @@ pub fn prompt(rcfg: RenderConfig) -> Result<Framework> {
     Ok(framework)
 }
 
-pub fn from(fw: &str) -> Result<Framework> {
+pub fn from(fw: &str) -> anyhow::Result<Framework> {
     let normalized = fw.trim().to_lowercase();
 
     if normalized.is_empty() {
-        bail!("framework cannot be empty");
+        anyhow::bail!("framework cannot be empty");
     }
 
     let framework = Framework::from_str(&normalized)
