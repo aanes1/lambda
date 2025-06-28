@@ -9,6 +9,13 @@ pub enum Framework {
     Axum,
     Actix,
     Rocket,
+    FastAPI,
+    Flask,
+    Turso,
+    NextJS,
+    Svelte,
+    Hello,
+    Test,
 }
 
 pub fn prompt(rcfg: RenderConfig) -> Result<Framework> {
