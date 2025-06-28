@@ -1,5 +1,9 @@
 use inquire::ui::{Attributes, Color, RenderConfig, StyleSheet, Styled};
 
+const RED: &str = "\x1b[31m";
+const BOLD: &str = "\x1b[1m";
+const RESET: &str = "\x1b[0m";
+
 pub fn get_render_config() -> RenderConfig<'static> {
     RenderConfig {
         prompt_prefix: Styled::new("?").with_fg(Color::DarkMagenta),
@@ -15,4 +19,8 @@ pub fn get_render_config() -> RenderConfig<'static> {
         selected_option: Some(StyleSheet::empty()),
         ..Default::default()
     }
+}
+
+pub fn error(e: anyhow::Error) {
+    eprintln!("{BOLD}{RED}✘{RESET} {e}");
 }
