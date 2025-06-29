@@ -1,31 +1,38 @@
-use anyhow::anyhow;
 use inquire::{Select, ui::RenderConfig};
-use std::str::FromStr;
-use strum::IntoEnumIterator;
+use std::{fmt::Display, str::FromStr};
 
-#[derive(strum::EnumIter, strum::Display, strum::EnumString)]
-#[strum(serialize_all = "lowercase")]
+#[derive(Clone)]
 pub enum Framework {
     Axum,
 }
 
-pub fn prompt(rcfg: RenderConfig) -> anyhow::Result<Framework> {
-    let framework = Select::new("framework", Framework::iter().collect())
-        .with_render_config(rcfg)
-        .prompt()?;
-
-    Ok(framework)
+impl Display for Framework {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Axum => write!(f, "axum"),
+        }
+    }
 }
 
-pub fn from(fw: &str) -> anyhow::Result<Framework> {
-    let normalized = fw.trim().to_lowercase();
+impl FromStr for Framework {
+    type Err = anyhow::Error;
 
-    if normalized.is_empty() {
-        anyhow::bail!("framework cannot be empty");
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s.trim().to_lowercase().as_str() {
+            "axum" => Ok(Self::Axum),
+            _ => anyhow::bail!("`{}` is not a valid framework", s),
+        }
     }
+}
 
-    let framework = Framework::from_str(&normalized)
-        .map_err(|_| anyhow!("`{}` is not a valid framwork", fw))?;
+impl Framework {
+    pub const ALL: &[Self] = &[Self::Axum];
+}
+
+pub fn prompt(rcfg: RenderConfig) -> anyhow::Result<Framework> {
+    let framework = Select::new("framework", Framework::ALL.to_vec())
+        .with_render_config(rcfg)
+        .prompt()?;
 
     Ok(framework)
 }

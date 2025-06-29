@@ -20,7 +20,7 @@ pub struct Cli {
 }
 
 pub fn run() -> anyhow::Result<()> {
-    let cli = Cli::parse();
+    let cli = Cli::try_parse()?;
 
     match &cli.command {
         Command::New(args) => new(args)?,

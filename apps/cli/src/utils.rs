@@ -1,7 +1,6 @@
 use inquire::ui::{Attributes, Color, RenderConfig, StyleSheet, Styled};
 
-const RED: &str = "\x1b[31m";
-const BOLD: &str = "\x1b[1m";
+const RED: &str = "\x1b[91m";
 const RESET: &str = "\x1b[0m";
 
 pub fn get_render_config() -> RenderConfig<'static> {
@@ -22,5 +21,9 @@ pub fn get_render_config() -> RenderConfig<'static> {
 }
 
 pub fn error(e: anyhow::Error) {
-    eprintln!("{BOLD}{RED}✘{RESET} {e}");
+    if let Some(source) = e.source() {
+        eprintln!("{RED}# {source}{RESET}");
+    } else {
+        eprintln!("{RED}# {e}{RESET}");
+    }
 }

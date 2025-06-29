@@ -1,5 +1,6 @@
 use crate::utils;
 use clap::Parser;
+use framework::Framework;
 use std::path::PathBuf;
 
 mod framework;
@@ -9,7 +10,7 @@ mod location;
 pub struct NewArgs {
     location: Option<String>,
     #[arg(long, alias = "fw")]
-    framework: Option<String>,
+    framework: Option<Framework>,
 }
 
 pub fn new(args: &NewArgs) -> anyhow::Result<()> {
@@ -28,6 +29,11 @@ pub fn new(args: &NewArgs) -> anyhow::Result<()> {
 
     let name = location::get_name(&path)?;
     location::check_name(&name)?;
+
+    let framework = match &args.framework {
+        Some(fw) => fw.clone(),
+        None => framework::prompt(rcfg)?,
+    };
 
     Ok(())
 }
