@@ -16,24 +16,18 @@ pub fn new(args: &NewArgs) -> anyhow::Result<()> {
     let rcfg = utils::get_render_config();
 
     let location = match &args.location {
-        Some(loc) => loc.trim().to_string(),
-        None => location::prompt(rcfg)?,
+        Some(loc) => {
+            location::check_len(&loc)?;
+            loc.trim().to_string()
+        }
+        None => location::prompt(rcfg)?, // checks len internally
     };
 
-    if location.is_empty() {
-        anyhow::bail!("location cannot be empty");
-    }
+    let path = PathBuf::from(location);
+    location::check_path(&path)?;
 
-    let path = {
-        let rel = PathBuf::from(location);
-        std::path::absolute(rel)?
-    };
     let name = location::get_name(&path)?;
-
-    let framework = match &args.framework {
-        Some(fw) => framework::from(fw)?,
-        None => framework::prompt(rcfg)?,
-    };
+    location::check_name(&name)?;
 
     Ok(())
 }
